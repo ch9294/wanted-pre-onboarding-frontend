@@ -1,12 +1,24 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import './App.css';
+import {useNavigate} from "react-router-dom";
 
 function App() {
-  return (
-    <div className="App">
+    const navigate = useNavigate();
 
-    </div>
-  );
+    useEffect(() => {
+        const jwt = localStorage.getItem("wanted-access-token");
+
+        if(jwt) {
+            navigate("/todo");
+        }else {
+            navigate("/signin");
+        }
+    }, [])
+
+    return (
+        <div className="App">
+        </div>
+    );
 }
 
 export default App;

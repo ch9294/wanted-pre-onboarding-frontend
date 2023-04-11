@@ -1,0 +1,13 @@
+@use "style/sign-common-style" as style;
+
+.top-level-container {
+  @include style.top-level-container;
+}
+
+.sign-up-container {
+  @include style.sign-container;
+
+  .sign-up-button {
+    @include style.sign-submit-button;
+  }
+}

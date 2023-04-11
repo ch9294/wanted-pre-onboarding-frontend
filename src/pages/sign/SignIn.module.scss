@@ -1,0 +1,23 @@
+@use "style/sign-common-style" as style;
+
+.top-level-container {
+  @include style.top-level-container;
+}
+
+.sign-in-container {
+  @include style.sign-container;
+
+  .sign-in-button {
+   @include style.sign-submit-button;
+  }
+
+  .sign-up-button {
+    font-size: 12px;
+    position: absolute;
+    bottom: 5%;
+  }
+}
+
+.sign-in-input-container {
+  @include style.sign-input-container;
+}
