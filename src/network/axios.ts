@@ -1,4 +1,4 @@
-import axios, {AxiosError, AxiosRequestConfig, AxiosResponse} from "axios";
+import axios, {AxiosError, AxiosRequestConfig, AxiosResponse, InternalAxiosRequestConfig} from "axios";
 
 
 // const baseURL = process.env.WANTED_PRE_ONBOARDING_INTERNSHIP_BASE_URL;
@@ -18,24 +18,22 @@ const userConfig: AxiosRequestConfig = {
 
 const mainApi = axios.create(mainConfig);
 const userApi = axios.create(userConfig);
-
-function mainRequestFulfilled(config: AxiosRequestConfig) {
+mainApi.interceptors.request.use((config) => {
     const jwt = localStorage.getItem("wanted-access-token");
 
     if (config.headers && jwt) {
-        // return {
-        //     ...config,
-        //     headers: {
-        //         Authorization: `Bearer ${jwt}`
-        //     }
-        // }
-        return config;
+        const newConfig = {
+            ...config,
+            headers: {
+                Authorization: `Bearer ${jwt}`
+            }
+        };
+        return newConfig as InternalAxiosRequestConfig;
     }
-
     return config;
-}
+}, (error) => {
 
-// mainApi.interceptors.request.use(mainRequestFulfilled)
+});
 
 
 const responseFulfilledInterceptor = (response: AxiosResponse<any, any>) => {
