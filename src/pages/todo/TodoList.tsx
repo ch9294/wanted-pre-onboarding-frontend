@@ -4,6 +4,7 @@ import {deleteTodo, getTodoList, postCreateTodo, putUpdateTodo, TodoItem} from "
 import {I_TodoState, todoReducer} from "../../reducer/TodoReducer";
 import styles from "./TodoList.module.scss";
 import cn from "classnames/bind";
+import {useNavigate} from "react-router-dom";
 
 const cx = cn.bind(styles);
 
@@ -20,6 +21,7 @@ const TodoContext = createContext<I_TodoContext>({})
 function TodoList() {
     const [todoState, dispatch] = useReducer(todoReducer, initState);
     const [refresh, setRefresh] = useState(0);
+    const navigate = useNavigate();
 
     const onCreateTodoSubmit = async (todo: string) => {
         try {
@@ -43,19 +45,23 @@ function TodoList() {
         })();
     }, [refresh]);
 
+    useEffect(() => {
+        const jwt = localStorage.getItem("wanted-access-token");
+        if (!jwt) {
+            navigate("/signin");
+        }
+    },[navigate]);
     return (
-        <CheckJWT>
-            <div className={cx("top-level-container")}>
-                <section className={cx("header-container")}>
-                    <CreateTodoInput onSubmit={onCreateTodoSubmit}/>
-                </section>
-                <section className={cx("list-container")}>
-                    <TodoContext.Provider value={{setRefresh}}>
-                        <TodoListView list={todoState.list}/>
-                    </TodoContext.Provider>
-                </section>
-            </div>
-        </CheckJWT>
+        <div className={cx("top-level-container")}>
+            <section className={cx("header-container")}>
+                <CreateTodoInput onSubmit={onCreateTodoSubmit}/>
+            </section>
+            <section className={cx("list-container")}>
+                <TodoContext.Provider value={{setRefresh}}>
+                    <TodoListView list={todoState.list}/>
+                </TodoContext.Provider>
+            </section>
+        </div>
     );
 }
 

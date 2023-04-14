@@ -13,7 +13,7 @@ function App() {
         }else {
             navigate("/signin");
         }
-    }, [])
+    }, [navigate])
 
     return (
         <div className="App">
