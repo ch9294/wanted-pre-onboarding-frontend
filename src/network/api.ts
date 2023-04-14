@@ -35,23 +35,17 @@ async function postSignIn(email: string, password: string): Promise<SignInRespon
 }
 
 
-async function getTodoList(jwt: string) { // 할일 목록 불러오기
+async function getTodoList() { // 할일 목록 불러오기
     const request = await mainApi({
         url: "/todos",
-        headers: {
-            Authorization: `Bearer ${jwt}`
-        }
     })
 
     return request.data;
 }
 
-async function postCreateTodo(jwt: string, todo: string) {
+async function postCreateTodo(todo: string) {
     const request = await mainApi({
         url: "/todos",
-        headers: {
-            Authorization: `Bearer ${jwt}`
-        },
         method: "POST",
         data: {
             todo
@@ -61,9 +55,28 @@ async function postCreateTodo(jwt: string, todo: string) {
     return request.data;
 }
 
+async function putUpdateTodo(todo: string, isCompleted: boolean, id: number) {
+    const request = await mainApi({
+        url: `/todos/${id}`,
+        method: "PUT",
+        data: {todo, isCompleted}
+    })
+    return request.data;
+}
+
+async function deleteTodo(id: number) {
+    const request = await mainApi({
+        url: `/todos/${id}`,
+        method: "DELETE",
+    })
+    return request.data;
+}
+
 export {
     postSignUp,
     postSignIn,
     getTodoList,
-    postCreateTodo
+    postCreateTodo,
+    putUpdateTodo,
+    deleteTodo
 }
