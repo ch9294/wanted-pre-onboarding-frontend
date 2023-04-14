@@ -123,6 +123,7 @@ function TodoItemView({item}: I_TodoItemView) {
                         if (modifyInputRef.current) {
                             const {value: modifyVal} = modifyInputRef.current;
                             const res = await putUpdateTodo(modifyVal, isChecked, item.id);
+
                             setIsModify(false);
                             setRefresh?.(prev => prev + 1);
                         }
